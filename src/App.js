@@ -1,51 +1,25 @@
-import logo from "./logo.svg";
-import { useState } from "react";
-import "./App.css";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 function App() {
-  var users = readLocalStorage();
-  // var users = ['vaja', 'eka', 'rati', 'tamuna', 'nino', 'keso', 'beqa']
-  // localStorage.setItem('users', JSON.stringify(users))
-  var [choosen, setchosen] = useState("");
+  const [randomElement, setRandomElement] = useState(null);
 
-
-  function choose() {
-    const randomNumber = Math.floor(Math.random() * (users.length));
-    console.log(randomNumber);
-    console.log(users.length);
-    console.log( users[randomNumber]);
-    var index = users.indexOf(users[randomNumber]);
-    console.log(index);
-    if (index !== -1) {
-      setchosen(users[randomNumber]);
-      users.splice(index, 1);
+  const handleButtonClick = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/getRandom');
+      setRandomElement(response.data.randomElement);
+    } catch (error) {
+      console.error('Error fetching random element:', error.message);
     }
-    console.log(users);
-    localStorage.setItem('users', JSON.stringify(users))
-  }
-
+  };
 
   return (
     <div className="App">
-      <button
-        className="resultbtn"
-        onClick={() => {
-          choose();
-        }}
-      >
-        asd
-      </button>
-      <div>{choosen}</div>
+      <h1>Global State App</h1>
+      <button onClick={handleButtonClick}>Get Random Element</button>
+      {randomElement && <p>Random Element: {randomElement}</p>}
     </div>
   );
 }
 
 export default App;
-
-function readLocalStorage() {
-  var users = localStorage.getItem("users");
-  if (users === null) {
-    return [];
-  }
-  return JSON.parse(users);
-}

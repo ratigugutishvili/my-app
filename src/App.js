@@ -3,9 +3,9 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  var users = readLocalStorage();
-  // var users = ['vaja', 'eka', 'rati', 'tamuna', 'nino', 'keso', 'beqa']
-  // localStorage.setItem('users', JSON.stringify(users))
+  // var users = readLocalStorage();
+  var users = ['vaja', 'eka', 'rati', 'tamuna', 'nino', 'keso', 'beqa']
+  localStorage.setItem('users', JSON.stringify(users))
   var [choosen, setchosen] = useState("");
 
 
